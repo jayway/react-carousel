@@ -43,7 +43,7 @@ export const Carousel = forwardRef<CarouselHandle, CarouselProps>(
     const [currentPage, setCurrentPage] = useState(0);
     const { ref: containerRef, width = 0 } =
       useResizeObserver<HTMLDivElement>();
-    const totalSlides = Children.count(children);
+    const totalItems = Children.count(children);
 
     const prevPage = useCallback(() => {
       setCurrentPage((currentPage) => Math.max(0, currentPage - 1));
@@ -77,7 +77,7 @@ export const Carousel = forwardRef<CarouselHandle, CarouselProps>(
       if (trackRef.current) {
         setTotalPages(Math.ceil(trackRef.current.scrollWidth / width));
       }
-    }, [width, totalSlides]);
+    }, [width, totalItems]);
 
     useImperativeHandle(ref, () => ({
       currentPage,
@@ -102,7 +102,7 @@ export const Carousel = forwardRef<CarouselHandle, CarouselProps>(
         >
           {Children.map(children, (child) =>
             cloneElement(child, {
-              style: { ...child.props.style, ...styles.slide() },
+              style: { ...child.props.style, ...styles.item() },
             })
           )}
         </div>

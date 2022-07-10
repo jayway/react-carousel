@@ -13,6 +13,6 @@ export const track: Style<{ currentPage: number }> = (props) => ({
   transform: `translateX(-${props.currentPage * 100}%)`,
 });
 
-export const slide: Style = () => ({
+export const item: Style = () => ({
   flexShrink: 0,
 });
