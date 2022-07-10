@@ -11,9 +11,6 @@
   "module": "./dist/react-carousel.mjs",
   "source": "./src/index.tsx",
   "types": "./dist/react-carousel.d.ts",
-  "files": [
-    "./dist"
-  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "microbundle",
