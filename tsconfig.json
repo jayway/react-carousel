@@ -3,8 +3,10 @@
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "node",
-    "jsx": "preserve"
+    "jsx": "react-jsx",
+    "jsxFactory": "",
+    "jsxFragmentFactory": ""
   },
-  "include": ["src/**/*"],
+  "include": ["./src/**/*"],
   "exclude": ["node_modules"]
 }
