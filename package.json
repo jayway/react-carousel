@@ -18,6 +18,7 @@
     "prebuild": "rimraf dist",
     "build": "microbundle",
     "dev": "microbundle watch",
+    "prerelease": "npm run build",
     "release": "np",
     "test": "exit 0"
   },
