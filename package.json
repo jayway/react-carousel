@@ -1,0 +1,41 @@
+{
+  "name": "@devoteam/react-carousel",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "require": "./dist/react-carousel.js",
+    "default": "./dist/react-carousel.modern.mjs"
+  },
+  "main": "./dist/react-carousel.js",
+  "umd:main": "./dist/react-carousel.umd.js",
+  "module": "./dist/react-carousel.mjs",
+  "source": "./src/index.tsx",
+  "types": "./dist/react-carousel.d.ts",
+  "files": [
+    "./dist"
+  ],
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "microbundle",
+    "dev": "microbundle watch",
+    "release": "np",
+    "test": "exit 0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "microbundle": "^0.15.0",
+    "np": "^7.6.2",
+    "rimraf": "^3.0.2"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-merge-refs": "^2.0.1",
+    "react-swipeable": "^7.0.0",
+    "use-resize-observer": "^9.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
