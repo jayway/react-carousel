@@ -63,6 +63,7 @@ export const Carousel = forwardRef<CarouselHandle, CarouselProps>(
     );
 
     const { ref: swipeableRef, ...handlers } = useSwipeable({
+      preventScrollOnSwipe: true,
       onSwiped: (eventData) => {
         if (eventData.dir === "Left") {
           nextPage();
