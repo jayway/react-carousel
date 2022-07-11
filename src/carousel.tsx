@@ -80,13 +80,17 @@ export const Carousel = forwardRef<CarouselHandle, CarouselProps>(
       }
     }, [width, totalItems]);
 
-    useImperativeHandle(ref, () => ({
-      currentPage,
-      totalPages,
-      nextPage,
-      prevPage,
-      goToPage,
-    }));
+    useImperativeHandle(
+      ref,
+      () => ({
+        currentPage,
+        totalPages,
+        nextPage,
+        prevPage,
+        goToPage,
+      }),
+      [currentPage, totalPages]
+    );
 
     return (
       <div
