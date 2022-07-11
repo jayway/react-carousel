@@ -1,5 +1,4 @@
 import {
-  Children,
   cloneElement,
   HTMLAttributes,
   ReactElement,
@@ -12,49 +11,45 @@ import {
 import { mergeRefs } from "react-merge-refs";
 import { useSwipeable } from "react-swipeable";
 import useResizeObserver from "use-resize-observer";
+
 import { CarouselContext, CarouselContextValue } from "./carousel-context";
-
 import * as styles from "./carousel.style";
-
-export interface CarouselHandle {
-  currentPage: number;
-  totalPages: number;
-  nextPage: () => void;
-  prevPage: () => void;
-  goToPage: (page: number) => void;
-}
 
 export interface CarouselProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
-  items: ReactElement[];
+  slides: ReactElement[];
   classPrefix?: string;
   children?: ReactNode | ((value: CarouselContextValue) => ReactNode);
 }
 
 export function Carousel({
-  style,
-  items,
+  slides,
   children,
   classPrefix = "carousel",
   ...props
 }: CarouselProps) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const { ref: containerRef, width = 0 } = useResizeObserver<HTMLDivElement>();
-  const totalItems = Children.count(children);
 
   const prevPage = useCallback(() => {
     setCurrentPage((currentPage) => Math.max(0, currentPage - 1));
   }, []);
 
   const nextPage = useCallback(() => {
-    setCurrentPage((currentPage) => Math.min(currentPage + 1, totalPages - 1));
+    if (totalPages) {
+      setCurrentPage((currentPage) =>
+        Math.min(currentPage + 1, totalPages - 1)
+      );
+    }
   }, [totalPages]);
 
   const goToPage = useCallback(
     (page: number) => {
-      setCurrentPage(Math.min(Math.max(0, page), totalPages - 1));
+      if (totalPages) {
+        setCurrentPage(Math.min(Math.max(0, page), totalPages - 1));
+      }
     },
     [totalPages]
   );
@@ -80,10 +75,10 @@ export function Carousel({
   };
 
   useEffect(() => {
-    if (trackRef.current) {
+    if (width && trackRef.current) {
       setTotalPages(Math.ceil(trackRef.current.scrollWidth / width));
     }
-  }, [width, totalItems]);
+  }, [width, slides.length]);
 
   return (
     <CarouselContext.Provider value={value}>
@@ -99,7 +94,7 @@ export function Carousel({
             style={styles.track({ currentPage })}
             className={`${classPrefix}-track`}
           >
-            {items.map((item) =>
+            {slides.map((item) =>
               cloneElement(item, {
                 style: { ...item.props.style, ...styles.item() },
               })

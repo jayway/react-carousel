@@ -8,7 +8,7 @@ export interface CarouselContextValue {
   goToPage: (page: number) => void;
 }
 
-export const CarouselContext = createContext<CarouselContextValue>(null);
+export const CarouselContext = createContext<CarouselContextValue | null>(null);
 
 export function useCarouselContext() {
   const context = useContext(CarouselContext);
