@@ -3,6 +3,7 @@ import {
   cloneElement,
   HTMLAttributes,
   ReactElement,
+  ReactNode,
   useCallback,
   useEffect,
   useRef,
@@ -25,14 +26,15 @@ export interface CarouselHandle {
 
 export interface CarouselProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
+  items: ReactElement[];
   classPrefix?: string;
-  children: ReactElement[] | ((value: CarouselContextValue) => ReactElement[]);
+  children?: ReactNode | ((value: CarouselContextValue) => ReactNode);
 }
 
 export function Carousel({
   style,
+  items,
   children,
-  className = "",
   classPrefix = "carousel",
   ...props
 }: CarouselProps) {
@@ -85,26 +87,26 @@ export function Carousel({
 
   return (
     <CarouselContext.Provider value={value}>
-      <div
-        {...props}
-        {...handlers}
-        ref={mergeRefs([containerRef, swipeableRef])}
-        style={{ ...style, ...styles.container() }}
-        className={`${classPrefix}-container ${className}`}
-      >
+      <div {...props}>
         <div
-          ref={trackRef}
-          style={styles.track({ currentPage })}
-          className={`${classPrefix}-track`}
+          {...handlers}
+          ref={mergeRefs([containerRef, swipeableRef])}
+          style={styles.container()}
+          className={`${classPrefix}-container`}
         >
-          {Children.map(
-            typeof children === "function" ? children(value) : children,
-            (child) =>
-              cloneElement(child, {
-                style: { ...child.props.style, ...styles.item() },
+          <div
+            ref={trackRef}
+            style={styles.track({ currentPage })}
+            className={`${classPrefix}-track`}
+          >
+            {items.map((item) =>
+              cloneElement(item, {
+                style: { ...item.props.style, ...styles.item() },
               })
-          )}
+            )}
+          </div>
         </div>
+        {typeof children === "function" ? children(value) : children}
       </div>
     </CarouselContext.Provider>
   );
