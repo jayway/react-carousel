@@ -17,13 +17,13 @@ import * as styles from "./carousel.style";
 
 export interface CarouselProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
-  slides: ReactElement[];
+  items: ReactElement[];
   classPrefix?: string;
   children?: ReactNode | ((value: CarouselContextValue) => ReactNode);
 }
 
 export function Carousel({
-  slides,
+  items,
   children,
   classPrefix = "carousel",
   ...props
@@ -78,7 +78,7 @@ export function Carousel({
     if (width && trackRef.current) {
       setTotalPages(Math.ceil(trackRef.current.scrollWidth / width));
     }
-  }, [width, slides.length]);
+  }, [width, items.length]);
 
   return (
     <CarouselContext.Provider value={value}>
@@ -94,7 +94,7 @@ export function Carousel({
             style={styles.track({ currentPage })}
             className={`${classPrefix}-track`}
           >
-            {slides.map((item) =>
+            {items.map((item) =>
               cloneElement(item, {
                 style: { ...item.props.style, ...styles.item() },
               })
